@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}My Dashboard - CampusEvents{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+  <h1>Welcome, {{ student.username }}!</h1>
+  <p>Here are the events you have registered for.</p>
+</div>
+
+<div class="registrations-list">
+  {% if registrations %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Event</th>
+          <th>Date</th>
+          <th>Location</th>
+          <th>Status</th>
+          <th>Registered On</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for reg in registrations %}
+        <tr>
+          <td><a href="{{ url_for('detail', event_id=reg.event.id) }}">{{ reg.event.title }}</a></td>
+          <td>{{ reg.event.date.strftime('%b %d, %Y %I:%M %p') }}</td>
+          <td>{{ reg.event.location }}</td>
+          <td>
+            <span class="status-badge status-{{ reg.status.lower() }}">{{ reg.status }}</span>
+          </td>
+          <td>{{ reg.created_at.strftime('%Y-%m-%d') }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <p>You haven't registered for any events yet.</p>
+    <a href="{{ url_for('index') }}" class="btn btn-primary">Browse Events</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

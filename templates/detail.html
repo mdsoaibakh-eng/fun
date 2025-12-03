@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}{{ event.title }} - CampusEvents{% endblock %}
+
+{% block content %}
+<div class="event-detail">
+  <div class="detail-header">
+    <h1>{{ event.title }}</h1>
+    <div class="meta-info">
+      <span class="meta-item">📅 {{ event.date.strftime('%A, %B %d, %Y') }}</span>
+      <span class="meta-item">⏰ {{ event.date.strftime('%I:%M %p') }}</span>
+      <span class="meta-item">📍 {{ event.location }}</span>
+    </div>
+  </div>
+
+  <div class="detail-body">
+    <p>{{ event.description | nl2br }}</p>
+  </div>
+
+  <div class="detail-actions">
+    {% if session.get('student_id') %}
+    {% if is_registered %}
+    <button class="btn btn-success" disabled>✅ Registered</button>
+    {% else %}
+    <form action="{{ url_for('register_event', event_id=event.id) }}" method="POST">
+      <button type="submit" class="btn btn-primary btn-lg">Register Now</button>
+    </form>
+    {% endif %}
+    {% elif session.get('admin_id') %}
+    <a class="btn btn-outline" href="{{ url_for('edit', event_id=event.id) }}">Edit Event</a>
+    {% else %}
+    <a class="btn btn-primary" href="{{ url_for('student_login') }}">Login to Register</a>
+    {% endif %}
+
+    <a class="btn btn-text" href="{{ url_for('index') }}">← Back to Events</a>
+  </div>
+</div>
+{% endblock %}

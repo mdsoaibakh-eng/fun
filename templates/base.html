@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{% block title %}College Events{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="container nav-inner">
+            <a class="brand" href="{{ url_for('index') }}">CampusEvents</a>
+            <div class="nav-links">
+                {% if session.get('admin_id') %}
+                <a class="nav-link" href="{{ url_for('create') }}">+ New Event</a>
+                <a class="nav-link" href="{{ url_for('admin_view_registrations') }}">Registrations</a>
+                <a class="btn btn-outline" href="{{ url_for('logout') }}">Logout (Admin)</a>
+                {% elif session.get('student_id') %}
+                <a class="nav-link" href="{{ url_for('student_dashboard') }}">My Dashboard</a>
+                <a class="btn btn-outline" href="{{ url_for('student_logout') }}">Logout</a>
+                {% else %}
+                <a class="nav-link" href="{{ url_for('student_login') }}">Student Login</a>
+                <a class="btn btn-outline" href="{{ url_for('admin_login') }}">Admin Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flashes">
+            {% for category, msg in messages %}
+            <div class="flash {{ category }}">{{ msg }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container">© {{ 2025 }} All rights reserved By CampusEvents and Md Soaib.</div>
+    </footer>
+</body>
+
+</html>
