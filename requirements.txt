@@ -4,3 +4,4 @@ python-dotenv
 pymysql
 cryptography>=1.0
 PyMySQL>=1.0
+gunicorn>=20.1.0
