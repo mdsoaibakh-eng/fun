@@ -4,8 +4,10 @@
 
 {% block content %}
 <div class="hero">
-  <h1>Upcoming Events</h1>
-  <p>Discover and register for the latest campus activities.</p>
+  <div class="hero-content">
+    <h1>Upcoming Events</h1>
+    <p>Discover and register for the latest campus activities.</p>
+  </div>
 </div>
 
 <div class="grid">
@@ -18,7 +20,9 @@
     <div class="card-body">
       <h3 class="card-title">{{ event.title }}</h3>
       <p class="event-location">📍 {{ event.location }}</p>
+      {% if event.description %}
       <p class="event-desc">{{ event.description[:100] }}{% if event.description|length > 100 %}…{% endif %}</p>
+      {% endif %}
     </div>
     <div class="card-actions">
       <a class="btn btn-primary" href="{{ url_for('detail', event_id=event.id) }}">View Details</a>

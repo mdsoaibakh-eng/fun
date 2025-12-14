@@ -1,14 +1,24 @@
 {% extends "base.html" %}
 
-{% block title %}Create Event - CampusEvents{% endblock %}
+{% block title %}{% if is_coordinator %}Propose Event{% else %}Create Event{% endif %} - CampusEvents{% endblock %}
 
 {% block content %}
 <div class="form-container">
-  <h1>Create New Event</h1>
-  <form method="post">
+  <h1>{% if is_coordinator %}Propose New Event{% else %}Create New Event{% endif %}</h1>
+  <form method="post" enctype="multipart/form-data">
     <div class="form-group">
       <label for="title">Event Title</label>
       <input type="text" name="title" id="title" value="{{ title }}" required class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="category_id">Category</label>
+      <select name="category_id" id="category_id" class="form-control" required>
+        <option value="">Select Category</option>
+        {% for category in categories %}
+        <option value="{{ category.id }}">{{ category.name }}</option>
+        {% endfor %}
+      </select>
     </div>
 
     <div class="form-group">
@@ -17,8 +27,8 @@
     </div>
 
     <div class="form-group">
-      <label for="location">Location</label>
-      <input type="text" name="location" id="location" value="{{ location }}" required class="form-control">
+      <label for="venue">Venue</label>
+      <input type="text" name="venue" id="venue" value="{{ venue }}" required class="form-control">
     </div>
 
     <div class="form-group">
@@ -26,8 +36,14 @@
       <textarea name="description" id="description" rows="5" class="form-control">{{ description }}</textarea>
     </div>
 
+    <div class="form-group">
+      <label for="image_file">Event Image/Document</label>
+      <input type="file" name="image_file" id="image_file" class="form-control">
+    </div>
+
     <div class="form-actions">
-      <button type="submit" class="btn btn-primary">Create Event</button>
+      <button type="submit" class="btn btn-primary">{% if is_coordinator %}Propose Event{% else %}Create Event{% endif
+        %}</button>
       <a href="{{ url_for('index') }}" class="btn btn-text">Cancel</a>
     </div>
   </form>

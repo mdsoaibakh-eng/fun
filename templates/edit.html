@@ -5,10 +5,21 @@
 {% block content %}
 <div class="form-container">
   <h1>Edit Event</h1>
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
     <div class="form-group">
       <label for="title">Event Title</label>
       <input type="text" name="title" id="title" value="{{ event.title }}" required class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="category_id">Category</label>
+      <select name="category_id" id="category_id" class="form-control" required>
+        <option value="">Select Category</option>
+        {% for category in categories %}
+        <option value="{{ category.id }}" {% if event.category_id==category.id %}selected{% endif %}>{{ category.name }}
+        </option>
+        {% endfor %}
+      </select>
     </div>
 
     <div class="form-group">
@@ -18,13 +29,33 @@
     </div>
 
     <div class="form-group">
-      <label for="location">Location</label>
-      <input type="text" name="location" id="location" value="{{ event.location }}" required class="form-control">
+      <label for="venue">Venue</label>
+      <input type="text" name="venue" id="venue" value="{{ event.venue }}" required class="form-control">
     </div>
 
     <div class="form-group">
       <label for="description">Description</label>
       <textarea name="description" id="description" rows="5" class="form-control">{{ event.description }}</textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="image_file">Update Event Image/Document</label>
+      <input type="file" name="image_file" id="image_file" class="form-control">
+      {% if event.image_file %}
+      <small>Current: {{ event.image_file }}</small>
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="announcements">Announcements</label>
+      <textarea name="announcements" id="announcements" rows="3" class="form-control"
+        placeholder="Updates for participants...">{{ event.announcements or '' }}</textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="results">Results</label>
+      <textarea name="results" id="results" rows="3" class="form-control"
+        placeholder="Event results...">{{ event.results or '' }}</textarea>
     </div>
 
     <div class="form-actions">

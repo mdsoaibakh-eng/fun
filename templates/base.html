@@ -13,21 +13,41 @@
     <nav class="nav">
         <div class="container nav-inner">
             <a class="brand" href="{{ url_for('index') }}">CampusEvents</a>
+            <button class="mobile-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <div class="nav-links">
                 {% if session.get('admin_id') %}
                 <a class="nav-link" href="{{ url_for('create') }}">+ New Event</a>
                 <a class="nav-link" href="{{ url_for('admin_view_registrations') }}">Registrations</a>
+                <a class="nav-link" href="{{ url_for('admin_coordinators') }}">Coordinators</a>
+                <a class="nav-link" href="{{ url_for('admin_students') }}">Students</a>
+                <a class="nav-link" href="{{ url_for('admin_reports') }}">Reports</a>
                 <a class="btn btn-outline" href="{{ url_for('logout') }}">Logout (Admin)</a>
+                {% elif session.get('coordinator_id') %}
+                <a class="nav-link" href="{{ url_for('coordinator_dashboard') }}">Coordinator Dashboard</a>
+                <a class="btn btn-outline" href="{{ url_for('coordinator_logout') }}">Logout</a>
                 {% elif session.get('student_id') %}
                 <a class="nav-link" href="{{ url_for('student_dashboard') }}">My Dashboard</a>
+                <a class="nav-link" href="{{ url_for('student_profile') }}">Profile</a>
                 <a class="btn btn-outline" href="{{ url_for('student_logout') }}">Logout</a>
                 {% else %}
                 <a class="nav-link" href="{{ url_for('student_login') }}">Student Login</a>
+                <a class="nav-link" href="{{ url_for('coordinator_login') }}">Coordinator Login</a>
                 <a class="btn btn-outline" href="{{ url_for('admin_login') }}">Admin Login</a>
                 {% endif %}
             </div>
         </div>
     </nav>
+
+    <script>
+        document.querySelector('.mobile-toggle').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('active');
+            this.classList.toggle('active');
+        });
+    </script>
 
     <main class="container">
         {% with messages = get_flashed_messages(with_categories=true) %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2>Manage Coordinators</h2>
+        <a href="{{ url_for('admin_create_coordinator') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New Coordinator
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-body">
+                {% if coordinators %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Department</th>
+                                <th>Created At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for coord in coordinators %}
+                            <tr>
+                                <td>{{ coord.username }}</td>
+                                <td>{{ coord.department }}</td>
+                                <td>{{ coord.created_at.strftime('%Y-%m-%d') }}</td>
+                                <td>
+                                    <form action="{{ url_for('admin_delete_coordinator', id=coord.id) }}" method="POST"
+                                        style="display:inline;">
+                                        <button type="submit" class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Are you sure?')">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">No coordinators found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <div class="card shadow-lg p-5" style="border: 5px solid #d4af37;">
+        <div class="card-body">
+            <h1 class="display-4 mb-4" style="font-family: 'Times New Roman', serif; color: #d4af37;">Certificate of
+                Participation</h1>
+            <p class="lead">This is to certify that</p>
+            <h2 class="mb-4">{{ student.username }}</h2>
+            <p class="lead">has successfully participated in the event</p>
+            <h3 class="mb-4">{{ event.title }}</h3>
+            <p>held on {{ event.date.strftime('%B %d, %Y') }} at {{ event.venue }}</p>
+
+            <div class="mt-5 row justify-content-center">
+                <div class="col-md-4 border-top pt-2">
+                    <p>Coordinator Signature</p>
+                </div>
+                <div class="col-md-4"></div>
+                <div class="col-md-4 border-top pt-2">
+                    <p>Principal Signature</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4">
+        <button onclick="window.print()" class="btn btn-primary">Print Certificate</button>
+        <a href="{{ url_for('student_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}
