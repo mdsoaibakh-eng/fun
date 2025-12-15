@@ -8,7 +8,7 @@ with app.app_context():
     db.create_all()
     
     # Seed Categories
-    categories = ['Academic', 'Sports', 'Cultural', 'Workshop', 'Seminar']
+    categories = ['Academic', 'Sports', 'Culture', 'Workshop', 'Seminar', 'Hostel']
     for cat_name in categories:
         if not Category.query.filter_by(name=cat_name).first():
             db.session.add(Category(name=cat_name))
